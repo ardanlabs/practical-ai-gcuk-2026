@@ -2,3 +2,8 @@ Let's create an application that has three routes, a healthcheck one, a Hello on
 The healthcheck should just reply a 200 to any GET request.
 The Hello one should be a GET route that replies back to the user with the message "Hello, {USER}". The user parameter should come from the route.
 The List Users should use postgres database via the sqlx library and fetch all the users in the system, render them as a big JSON for now.
+
+----
+Move the database schema to zarf/schemas/db and make it a migration using the
+  https://github.com/pressly/goose
+
