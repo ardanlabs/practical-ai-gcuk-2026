@@ -229,7 +229,7 @@ func installSystem() (models.Path, models.Path, models.Path, error) {
 	defer cancel()
 
 	libs, err := libs.New(
-		libs.WithVersion(defaults.LibVersion("")),
+		libs.WithVersion(defaults.LibVersion("b10344")),
 	)
 	if err != nil {
 		return models.Path{}, models.Path{}, models.Path{}, err
