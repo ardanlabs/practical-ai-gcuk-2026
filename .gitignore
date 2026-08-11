@@ -2,20 +2,42 @@
 # https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
 #
 # Binaries for programs and plugins
+
+.DS_Store
+.venv/
+
 *.exe
 *.exe~
 *.dll
 *.so
-*.dylib
+*.gguf
+
+cmd/examples/example12/step3/audio
+output.*
+output_*.mp4
+test_rag_video.mp4
+cmd/notes/florin.md
+zarf/samples/videos/chunks/*
+zarf/samples/videos/frames/*
+zarf/data/book.embeddings
+zarf/data/example3.*
+zarf/data/duck*
+zarf/docker/age-data/
+zarf/docker/mongodb/
+zarf/docker/openwebui/
+zarf/docker/sql-data/
+zarf/docker/docling/
+zarf/libraries/
+
+debug.txt
+change_log.txt
+.env
 
 # Test binary, built with `go test -c`
 *.test
 
-# Code coverage profiles and other test artifacts
+# Output of the go coverage tool, specifically when used with LiteIDE
 *.out
-coverage.*
-*.coverprofile
-profile.cov
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
@@ -23,10 +45,5 @@ profile.cov
 # Go workspace file
 go.work
 go.work.sum
-
-# env file
-.env
-
-# Editor/IDE
-# .idea/
-# .vscode/
+.idea
+.vscode
