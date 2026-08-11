@@ -1,6 +1,5 @@
--- Schema for the user domain.
-
-CREATE TABLE IF NOT EXISTS users (
+-- +goose Up
+CREATE TABLE users (
 	user_id      BIGSERIAL   NOT NULL,
 	name         TEXT        NOT NULL,
 	email        TEXT        NOT NULL UNIQUE,
@@ -10,3 +9,6 @@ CREATE TABLE IF NOT EXISTS users (
 
 	PRIMARY KEY (user_id)
 );
+
+-- +goose Down
+DROP TABLE users;

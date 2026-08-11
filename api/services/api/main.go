@@ -9,10 +9,10 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"strconv"
 	"syscall"
 	"time"
 
+	"github.com/ardanlabs/practical-ai-gcuk-2026/app/sdk/env"
 	"github.com/ardanlabs/practical-ai-gcuk-2026/app/sdk/mux"
 	"github.com/ardanlabs/practical-ai-gcuk-2026/business/domain/userbus"
 	"github.com/ardanlabs/practical-ai-gcuk-2026/business/domain/userbus/stores/userdb"
@@ -41,20 +41,12 @@ func run(ctx context.Context, log *slog.Logger) error {
 		shutdownTimeout time.Duration
 		db              sqldb.Config
 	}{
-		apiHost:         envString("API_HOST", "0.0.0.0:3000"),
-		readTimeout:     envDuration("API_READ_TIMEOUT", 5*time.Second),
-		writeTimeout:    envDuration("API_WRITE_TIMEOUT", 10*time.Second),
-		idleTimeout:     envDuration("API_IDLE_TIMEOUT", 120*time.Second),
-		shutdownTimeout: envDuration("API_SHUTDOWN_TIMEOUT", 20*time.Second),
-		db: sqldb.Config{
-			User:         envString("DB_USER", "postgres"),
-			Password:     envString("DB_PASSWORD", "postgres"),
-			HostPort:     envString("DB_HOST_PORT", "localhost:5432"),
-			Name:         envString("DB_NAME", "postgres"),
-			MaxIdleConns: envInt("DB_MAX_IDLE_CONNS", 2),
-			MaxOpenConns: envInt("DB_MAX_OPEN_CONNS", 0),
-			DisableTLS:   envBool("DB_DISABLE_TLS", true),
-		},
+		apiHost:         env.String("API_HOST", "0.0.0.0:3000"),
+		readTimeout:     env.Duration("API_READ_TIMEOUT", 5*time.Second),
+		writeTimeout:    env.Duration("API_WRITE_TIMEOUT", 10*time.Second),
+		idleTimeout:     env.Duration("API_IDLE_TIMEOUT", 120*time.Second),
+		shutdownTimeout: env.Duration("API_SHUTDOWN_TIMEOUT", 20*time.Second),
+		db:              env.DBConfig(),
 	}
 
 	// -------------------------------------------------------------------------
@@ -123,42 +115,4 @@ func run(ctx context.Context, log *slog.Logger) error {
 	}
 
 	return nil
-}
-
-func envString(key string, def string) string {
-	if v, ok := os.LookupEnv(key); ok {
-		return v
-	}
-
-	return def
-}
-
-func envInt(key string, def int) int {
-	if v, ok := os.LookupEnv(key); ok {
-		if i, err := strconv.Atoi(v); err == nil {
-			return i
-		}
-	}
-
-	return def
-}
-
-func envBool(key string, def bool) bool {
-	if v, ok := os.LookupEnv(key); ok {
-		if b, err := strconv.ParseBool(v); err == nil {
-			return b
-		}
-	}
-
-	return def
-}
-
-func envDuration(key string, def time.Duration) time.Duration {
-	if v, ok := os.LookupEnv(key); ok {
-		if d, err := time.ParseDuration(v); err == nil {
-			return d
-		}
-	}
-
-	return def
 }
