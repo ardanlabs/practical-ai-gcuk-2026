@@ -18,6 +18,19 @@ type dbUser struct {
 	DateUpdated time.Time `db:"date_updated"`
 }
 
+func toDBUser(bus userbus.User) dbUser {
+	db := dbUser{
+		ID:          bus.ID,
+		Name:        bus.Name.String(),
+		Email:       bus.Email.String(),
+		Enabled:     bus.Enabled,
+		DateCreated: bus.DateCreated.UTC(),
+		DateUpdated: bus.DateUpdated.UTC(),
+	}
+
+	return db
+}
+
 func toBusUser(db dbUser) (userbus.User, error) {
 	nme, err := name.Parse(db.Name)
 	if err != nil {

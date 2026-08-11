@@ -18,5 +18,9 @@ type Config struct {
 func Routes(mux *http.ServeMux, cfg Config) {
 	app := newApp(cfg.UserBus)
 
+	mux.HandleFunc("POST /users", api.Wrap(cfg.Log, app.create))
 	mux.HandleFunc("GET /users", api.Wrap(cfg.Log, app.queryAll))
+	mux.HandleFunc("GET /users/{user_id}", api.Wrap(cfg.Log, app.queryByID))
+	mux.HandleFunc("PUT /users/{user_id}", api.Wrap(cfg.Log, app.update))
+	mux.HandleFunc("DELETE /users/{user_id}", api.Wrap(cfg.Log, app.delete))
 }

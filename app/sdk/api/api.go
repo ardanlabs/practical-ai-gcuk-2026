@@ -15,9 +15,32 @@ import (
 // Handler represents a handler function that must be supplied for a route.
 type Handler func(ctx context.Context, r *http.Request) (any, error)
 
-// statuser is implemented by errors that know their own HTTP status code.
-type statuser interface {
+// Statuser is implemented by any value that knows its own HTTP status code.
+// Errors use it to select the response status; handler results use it to
+// return a status other than 200 OK.
+type Statuser interface {
 	HTTPStatus() int
+}
+
+// StatusData pairs a handler result with an explicit HTTP status code. A nil
+// Data field results in a response with the chosen status and no body.
+type StatusData struct {
+	Data any
+	Code int
+}
+
+// NewStatus constructs a StatusData so a handler can control the status code
+// of a successful response, for example 201 Created or 204 No Content.
+func NewStatus(code int, data any) StatusData {
+	return StatusData{
+		Data: data,
+		Code: code,
+	}
+}
+
+// HTTPStatus implements the Statuser interface.
+func (sd StatusData) HTTPStatus() int {
+	return sd.Code
 }
 
 // Wrap adapts a Handler into an http.HandlerFunc, taking care of encoding the
@@ -34,7 +57,18 @@ func Wrap(log *slog.Logger, handler Handler) http.HandlerFunc {
 			return
 		}
 
-		if err := Respond(w, http.StatusOK, data); err != nil {
+		statusCode := http.StatusOK
+
+		switch v := data.(type) {
+		case StatusData:
+			statusCode = v.Code
+			data = v.Data
+
+		case Statuser:
+			statusCode = v.HTTPStatus()
+		}
+
+		if err := Respond(w, statusCode, data); err != nil {
 			log.ErrorContext(ctx, "respond failed", "path", r.URL.Path, "err", err)
 		}
 	}
@@ -68,7 +102,7 @@ func respondError(ctx context.Context, log *slog.Logger, w http.ResponseWriter, 
 	statusCode := http.StatusInternalServerError
 	data := any(errs.Error{Message: http.StatusText(http.StatusInternalServerError)})
 
-	var st statuser
+	var st Statuser
 	if errors.As(err, &st) {
 		statusCode = st.HTTPStatus()
 		data = err

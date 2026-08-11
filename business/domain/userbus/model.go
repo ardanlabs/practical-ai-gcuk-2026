@@ -16,3 +16,18 @@ type User struct {
 	DateCreated time.Time
 	DateUpdated time.Time
 }
+
+// NewUser contains information needed to create a new user.
+type NewUser struct {
+	Name    name.Name
+	Email   mail.Address
+	Enabled bool
+}
+
+// UpdateUser contains information needed to update a user. A nil field
+// means the existing value is left untouched.
+type UpdateUser struct {
+	Name    *name.Name
+	Email   *mail.Address
+	Enabled *bool
+}
