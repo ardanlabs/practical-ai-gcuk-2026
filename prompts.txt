@@ -1,0 +1,8 @@
+Let's create an application that has two routes, a healthcheck one and a Hello one.
+The healthcheck should just reply a 200 to any GET request.
+The Hello one should be a GET route that replies back to the user with the message "Hello, {USER}". The user parameter should come from the route.
+
+----
+
+Let's add a new route: a List Users one.
+The List Users should use postgres database via the sqlx library and fetch all the users in the system, render them as a big JSON for now.
