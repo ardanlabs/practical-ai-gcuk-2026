@@ -22,9 +22,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/ardanlabs/practical-ai-gcuk-2026/foundation/client"
-	"github.com/ardanlabs/practical-ai-gcuk-2026/foundation/mongodb"
-	"github.com/ardanlabs/practical-ai-gcuk-2026/foundation/vector"
+	"github.com/ardanlabs/ai-training/foundation/client"
+	"github.com/ardanlabs/ai-training/foundation/mongodb"
+	"github.com/ardanlabs/ai-training/foundation/vector"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
