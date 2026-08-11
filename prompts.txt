@@ -7,3 +7,20 @@ The List Users should use postgres database via the sqlx library and fetch all t
 Move the database schema to zarf/schemas/db and make it a migration using the
   https://github.com/pressly/goose
 
+
+----
+
+We should have some integration tests using curl to test the real API of the service.
+Place the tests in  zarf/integration and link them in the make file as a `test-curl` task. You can use subagents
+
+----
+
+I also want you to print the curl request before running it.
+
+----
+
+Use subagents to implement the CRUD for Users. Use the layered-architecture-type skill and read the @AGENTS.md
+
+----
+
+Let's separate the tests in @zarf/integration/ into separte shell files based on the domain they test.
