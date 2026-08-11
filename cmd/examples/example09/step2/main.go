@@ -78,7 +78,7 @@ func weatherQuestion(ctx context.Context) error {
 		"temperature": 0.1,
 		"top_p":       0.1,
 		"top_k":       50,
-		"max_tokens":  32 * 1024,
+		"max_tokens":  8 * 1024,
 		"stream":      true,
 		"tools": []client.D{
 			{
