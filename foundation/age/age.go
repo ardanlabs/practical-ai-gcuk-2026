@@ -30,7 +30,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ardanlabs/ai-training/foundation/sqldb"
+	"github.com/ardanlabs/practical-ai-gcuk-2026/foundation/sqldb"
 	"github.com/jmoiron/sqlx"
 )
 

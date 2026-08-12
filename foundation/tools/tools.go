@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/ardanlabs/ai-training/foundation/client"
+	"github.com/ardanlabs/practical-ai-gcuk-2026/foundation/client"
 )
 
 // Tool describes the features which all tools must implement.
